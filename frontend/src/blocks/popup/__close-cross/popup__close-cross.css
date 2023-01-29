@@ -1,0 +1,14 @@
+.popup__close-cross {
+    max-width: 32px;
+}
+
+.popup__close-cross:hover {
+    opacity: 0.6;
+    transition: opacity 0.8s;
+}
+
+@media screen and (max-width:600px) {
+    .popup__close-cross {
+        max-width: 20px;
+    }
+}

@@ -1,0 +1,10 @@
+.profile__add-button-plus {
+    max-width: 22px;
+    text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+    .profile__add-button-plus {
+        max-width: 16px;
+    }
+}

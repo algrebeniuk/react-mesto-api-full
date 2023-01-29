@@ -1,0 +1,4 @@
+.header__conteiner {
+    display: flex;
+    flex-direction: row;
+}

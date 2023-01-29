@@ -1,0 +1,32 @@
+.form__save {
+    max-width: 356px;
+    font-family: 'Inter', Arial, Helvetica, sans-serif; /* Если я удалю эту строчку, то шрифты будут установлены браузером,ведь этот стиль не дублируется в медиа-запросах. */
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #FFFFFF;
+    background-color: black;
+    border-radius: 2px;
+    margin: 0 36px 37px;
+    min-height: 50px;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.form__save:hover {
+    opacity: 0.8;
+    transition: opacity 0.8s;
+}
+
+@media screen and (max-width: 600px) {
+    .form__save {
+        max-width: 238px;
+        margin: 0 22px 25px;
+        font-size: 14px;
+        line-height: 17px;
+    }
+}

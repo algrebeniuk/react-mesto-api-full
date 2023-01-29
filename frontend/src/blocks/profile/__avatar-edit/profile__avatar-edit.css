@@ -1,0 +1,29 @@
+.profile__avatar-edit {
+    
+    padding: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: none;
+    background-color: transparent;
+    position: relative;
+    z-index: 1;
+}
+
+.profile__avatar-edit:hover {
+    cursor: pointer;
+    background-image: url(../../../images/pen.svg);
+    background-color: rgba(0, 0, 0, 0.8);
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: 0.8s;
+    background-size: 26px;
+    
+}    
+
+@media screen and (max-width: 600px) {
+    .profile__avatar-edit {
+        margin: 0 auto 22.25px;
+    }
+    
+}

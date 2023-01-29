@@ -1,0 +1,10 @@
+.profile__edit-button-pen {
+    max-width: 10px;
+    vertical-align: middle;
+}
+
+@media screen and (max-width: 600px) {
+    .profile__edit-button-pen {
+        max-width: 7.5px;
+    }
+}

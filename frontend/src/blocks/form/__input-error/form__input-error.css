@@ -1,0 +1,27 @@
+.form__input-error {
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #FF0000;
+    height: 30px;
+    max-width: 358px;
+    margin: 0px 36px 0px;
+}
+
+.form__input-error:last-of-type {
+    margin-bottom: 18px;
+}
+
+@media screen and (max-width: 600px) {
+    .form__input-error {
+        margin: 0 22px 0px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .form__input-error:last-of-type {
+        margin: 0 22px 18px;
+    }
+}
