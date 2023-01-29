@@ -3,6 +3,7 @@ import { set, connect } from 'mongoose';
 import { errors } from 'celebrate';
 import { rateLimit } from 'express-rate-limit';
 import helmet from 'helmet';
+import cors from 'cors';
 import userRouter from './routes/user.js';
 import cardRouter from './routes/card.js';
 import { login, createUser } from './controllers/user.js';
@@ -13,6 +14,7 @@ import { validationOfUserSignUp, validationOfUserSignIn } from './middlewares/us
 
 const { PORT = 3000 } = process.env;
 const app = express();
+app.use(cors());
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 1000 requests per `window` (here, per 15 minutes)
