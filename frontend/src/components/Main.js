@@ -1,7 +1,6 @@
 import pen from '../images/pen.svg';
 import plus from '../images/plus.svg';
-import {useContext, useEffect, useState} from 'react';
-import api from '../utils/Api';
+import {useContext} from 'react';
 import Card from './Card';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 

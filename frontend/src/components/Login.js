@@ -8,7 +8,7 @@ function Login( { onLogin, buttonHeader } ) {
         return () => {
             buttonHeader(false);
         }
-    }, []);
+    }, [buttonHeader]);
 
     const[email, setEmail] = useState('');
     const[password, setPassword] = useState('');

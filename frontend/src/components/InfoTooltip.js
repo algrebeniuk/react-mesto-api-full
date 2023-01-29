@@ -10,7 +10,7 @@ function InfoTooltip( {name, isOpen, onClose, status} ) {
         <button className="popup__close" type="button" onClick={onClose}>
           <img className="popup__close-cross" src={cross} alt="" />
         </button>
-        <img className="popup__register-image" src={status ? successImg : failImg} />
+        <img className="popup__register-image" src={status ? successImg : failImg} alt={status ? 'галочка' : 'крестик'}/>
         <p className="popup__register-text">{status ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте ещё раз.'}</p>
       </div>
     </div>
