@@ -1,3 +1,4 @@
+import * as dotenv from 'dotenv';
 import express, { json } from 'express';
 import { set, connect } from 'mongoose';
 import { errors } from 'celebrate';
@@ -12,6 +13,8 @@ import auth from './middlewares/auth.js';
 import NotFoundError from './errors/not-found-error.js';
 import CentralizedErrorHandling from './middlewares/centralized-error-handling.js';
 import { validationOfUserSignUp, validationOfUserSignIn } from './middlewares/user-joi-validation.js';
+
+dotenv.config();
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -30,6 +33,12 @@ app.use(json());
 app.use(limiter);
 app.use(helmet());
 app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signup', validationOfUserSignUp, createUser);
 app.post('/signin', validationOfUserSignIn, login);
