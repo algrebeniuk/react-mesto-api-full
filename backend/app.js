@@ -4,6 +4,7 @@ import { errors } from 'celebrate';
 import { rateLimit } from 'express-rate-limit';
 import helmet from 'helmet';
 import cors from 'cors';
+import { requestLogger, errorLogger } from './middlewares/logger.js';
 import userRouter from './routes/user.js';
 import cardRouter from './routes/card.js';
 import { login, createUser } from './controllers/user.js';
@@ -28,6 +29,7 @@ connect('mongodb://127.0.0.1:27017/mestodb');
 app.use(json());
 app.use(limiter);
 app.use(helmet());
+app.use(requestLogger);
 
 app.post('/signup', validationOfUserSignUp, createUser);
 app.post('/signin', validationOfUserSignIn, login);
@@ -41,8 +43,8 @@ app.use((req, res, next) => {
   next(new NotFoundError('File not found'));
 });
 
+app.use(errorLogger);
 app.use(errors());
-
 app.use(CentralizedErrorHandling);
 
 app.listen(PORT, () => {
