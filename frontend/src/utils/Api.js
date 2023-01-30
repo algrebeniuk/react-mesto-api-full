@@ -1,7 +1,8 @@
+export const baseUrl = 'http://localhost:3000';
+
 class Api {
-    constructor(options) {
-        this._baseUrl = options.baseUrl;
-        this._headers = options.headers;
+    constructor(baseUrl) {
+        this._baseUrl = baseUrl;
     }
 
     _serverСorrectness(res) {
@@ -14,7 +15,10 @@ class Api {
     async getUserInfo() {
         const res = await fetch(`${this._baseUrl}/users/me`, {
             method: 'GET',
-            headers: this._headers
+            headers: {
+              authorization: `Bearer ${localStorage.getItem('jwt')}`,
+              'Content-Type': 'application/json',
+            },    
         });
         return this._serverСorrectness(res);
     }
@@ -22,30 +26,39 @@ class Api {
     async getInitialCards() {
         const res = await fetch(`${this._baseUrl}/cards`, {
             method: 'GET',
-            headers: this._headers
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json',
+              },   
         });
         return this._serverСorrectness(res);
     }
 
-    async editProfile(data) {
+    async editProfile({name, about}) {
         const res = await fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json',
+              },   
             body: JSON.stringify({
-                name: data.name,
-                about: data.about
+                name,
+                about
             })
         });
         return this._serverСorrectness(res);
     }
 
-    async addNewCard(data) {
+    async addNewCard({name, link}) {
         const res = await fetch(`${this._baseUrl}/cards`, {
             method: 'POST',
-            headers: this._headers,
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json',
+            },   
             body: JSON.stringify({
-                name: data.name,
-                link: data.link 
+                name,
+                link
             })
         });
         return this._serverСorrectness(res);
@@ -54,7 +67,10 @@ class Api {
     async deleteCard(cardId) {
         const res = await fetch(`${this._baseUrl}/cards/${cardId}`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json',
+            },   
         });
         return this._serverСorrectness(res);
     }
@@ -62,7 +78,10 @@ class Api {
     async setLike(cardId) {
         const res = await fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: 'PUT',
-            headers: this._headers
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json',
+            }, 
         });
         return this._serverСorrectness(res);
     }
@@ -70,17 +89,23 @@ class Api {
     async deleteLike(cardId) {
         const res = await fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json',
+            }, 
         });
         return this._serverСorrectness(res);
     }
 
-    async editAvatar(data) {
+    async editAvatar({avatar}) {
         const res = await fetch(`${this._baseUrl}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json',
+            }, 
             body: JSON.stringify({
-                avatar: data.avatar
+                avatar
             })
         });
         return this._serverСorrectness(res);
@@ -89,18 +114,17 @@ class Api {
     async changeLikeCardStatus(cardId, isLiked) {
         const res = await fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: isLiked ? 'DELETE' : 'PUT',
-            headers: this._headers
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                'Content-Type': 'application/json',
+            }, 
         });
         return this._serverСorrectness(res);
     }
 }
 
-const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-49',
-    headers: {
-      authorization: 'aa0e6b89-9ade-4bd3-831f-2c58dd712b31',
-      'Content-Type': 'application/json'
-    }
-});
+const api = new Api(
+    baseUrl,
+);
 
 export default api;

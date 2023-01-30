@@ -17,7 +17,7 @@ export function getUser(req, res, next) {
   User.findById(userId)
     .orFail(new NotFoundError('Пользователь не найден'))
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -119,7 +119,7 @@ export function getCurrentUser(req, res, next) {
   User.findById(req.user._id)
     .orFail(new NotFoundError('Пользователь не найден'))
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {

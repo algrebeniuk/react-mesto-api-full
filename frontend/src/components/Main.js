@@ -34,9 +34,6 @@ function Main({cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCa
           {cards.map((card) => (
             <Card 
               key={card._id}
-              name={card.name}
-              link={card.link}
-              likes={card.likes}
               onCardClick={onCardClick}
               card={card}
               onCardLike={onCardLike}

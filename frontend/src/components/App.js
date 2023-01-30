@@ -46,12 +46,29 @@ function App() {
         .catch((err) => console.log(err))
 
       api.getInitialCards()
-        .then((data) =>{
-          setCards(data);
+        .then((card) =>{
+          setCards(card);
         }) 
         .catch((err) => console.log(err))
     }
   }, [loggedIn]);
+
+  function handleTokenCheck() {
+    const token = localStorage.getItem('jwt');
+    if(token) {
+      checkToken(token)
+      .then((res) => {
+        if(res) {
+          setEmail(res.email);
+          setLoggedIn(true);
+          history.push('/');
+        };
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+  }
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true)
@@ -73,7 +90,7 @@ function App() {
     setIsInfoTooltipOpen(false);
   }
 
-  function handleCardClick(link, name) {
+  function handleCardClick({link, name}) {
     setSelectedCard({
       link: link,
       name: name
@@ -81,7 +98,7 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
     api.changeLikeCardStatus(card._id, isLiked)
        .then((newCard) => {
           setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
@@ -125,7 +142,7 @@ function App() {
   }
 
   function handleRegister(password, email) {
-    register(password, email)
+    register({password, email})
        .then((res) =>{
           if(res) {
             setIsInfoTooltipOpen(true);
@@ -159,23 +176,6 @@ function App() {
     setLoggedIn(false);
     localStorage.removeItem('jwt');
     history.push('/sign-in')
-  }
-
-  function handleTokenCheck() {
-    const jwt = localStorage.getItem('jwt');
-    if(jwt) {
-      checkToken(jwt)
-      .then((res) => {
-        if(res) {
-          setEmail(res.data.email);
-          setLoggedIn(true);
-          history.push('/');
-        };
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
   }
   
   return (

@@ -1,29 +1,11 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'http://localhost:3000';
+
 const checkResponse = (res) => {
-  return res.ok ? res.json() : res.json.then((err) => {
-    Promise.reject(err);
-  })
+  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export const register = (password, email) => {
+export const register = ({password, email}) => {
     return fetch(`${BASE_URL}/signup`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        password: password, 
-        email: email
-      })
-    })
-    .then((res) => {
-      return checkResponse(res)
-    })
-  };
-
-export const authorize = ({password, email}) => {
-    return fetch(`${BASE_URL}/signin`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -37,7 +19,28 @@ export const authorize = ({password, email}) => {
     .then((res) => {
       return checkResponse(res)
     })
-};
+  };
+
+export const authorize = ({password, email}) => {
+    return fetch(`${BASE_URL}/signin`, {  
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        password, 
+        email
+      })
+    })
+    .then((res) => {
+      return checkResponse(res)
+    })
+    .then((data) => {
+      localStorage.setItem('jwt', data.token)
+      return data;
+    })
+  };
 
 export const checkToken = (token) => {
     return fetch(`${BASE_URL}/users/me`, {
@@ -51,6 +54,5 @@ export const checkToken = (token) => {
     .then((res) => {
       return checkResponse(res)
     })
-  }
-  
+}
 
