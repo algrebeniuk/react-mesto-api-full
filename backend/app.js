@@ -1,7 +1,4 @@
-/* eslint-disable import/first */
-// eslint-disable-next-line import/newline-after-import
-import * as dotenv from 'dotenv';
-dotenv.config();
+import './env.js';
 import express, { json } from 'express';
 import { set, connect } from 'mongoose';
 import { errors } from 'celebrate';
