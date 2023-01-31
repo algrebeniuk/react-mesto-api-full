@@ -13,14 +13,14 @@ export const validationOfUserSignUp = celebrate({
 
 export const validationOfUserSignIn = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required(true).email(),
-    password: Joi.string().required(true),
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
   }),
 });
 
 export const validationOfGettingUserId = celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().required(true).hex().length(24),
+    userId: Joi.string().required().hex().length(24),
   }),
 });
 
@@ -32,7 +32,7 @@ export const validationOfAvatarUpdate = celebrate({
 
 export const validationOfUserUpdate = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
+    about: Joi.string().required().min(2).max(30),
   }),
 });

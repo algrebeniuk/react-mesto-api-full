@@ -18,7 +18,7 @@ export default function tokenVerification(req, res, next) {
   } catch (err) {
     // eslint-disable-next-line no-console
     console.log(err.name);
-    next(new UnauthorizedError('Необходима авторизация'));
+    throw new UnauthorizedError('Необходима авторизация');
   }
 
   req.user = payload;

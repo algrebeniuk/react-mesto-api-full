@@ -4,7 +4,7 @@ import NotFoundError from '../errors/not-found-error.js';
 import ForbiddenError from '../errors/forbidden-error.js';
 
 export function getCards(req, res, next) {
-  Card.find({})
+  Card.find({}).sort({ createdAt: -1 })
     .then((card) => res.send(card))
     .catch(next);
 }
@@ -25,26 +25,21 @@ export function createCard(req, res, next) {
 
 export function deleteCard(req, res, next) {
   const { cardId } = req.params;
-  Card.findByIdAndRemove(cardId)
+  Card.findById(cardId)
     .populate(['likes', 'owner'])
     .orFail(new NotFoundError('Карточка не найдена'))
     .then((card) => {
       if (!card.owner.equals(req.user._id)) {
         next(new ForbiddenError('Невозможно удалить чужую карточку'));
       }
-      card.remove();
-      res.send({ message: 'Карточка удалена' });
+      return card.remove().then(res.send({ message: 'Карточка удалена' }));
     })
     .catch((err) => {
-      if (err.message === 'NotValidId') {
-        next(new BadRequest('Введены некорректные данные'));
-      }
       if (err.name === 'CastError') {
         next(new BadRequest('Введены некорректные данные'));
+        return;
       }
-      if (err) {
-        next(err);
-      }
+      next(err);
     });
 }
 
@@ -62,10 +57,9 @@ export function likeCard(req, res, next) {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequest('Введены некорректные данные'));
+        return;
       }
-      if (err) {
-        next(err);
-      }
+      next(err);
     });
 }
 
@@ -83,9 +77,8 @@ export function dislikeCard(req, res, next) {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequest('Введены некорректные данные'));
+        return;
       }
-      if (err) {
-        next(err);
-      }
+      next(err);
     });
 }

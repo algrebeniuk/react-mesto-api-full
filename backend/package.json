@@ -14,7 +14,10 @@
     "url": "git+https://github.com/algrebeniuk/express-mesto-gha.git"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Alexander Grebeniuk",
+    "email": "gre8enyuk.al@yandex.ru"
+  },
   "type": "module",
   "license": "ISC",
   "bugs": {

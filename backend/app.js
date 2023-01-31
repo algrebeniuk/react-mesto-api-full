@@ -30,9 +30,9 @@ set('strictQuery', false);
 connect('mongodb://127.0.0.1:27017/mestodb');
 
 app.use(json());
+app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
-app.use(requestLogger);
 
 app.get('/crash-test', () => {
   setTimeout(() => {

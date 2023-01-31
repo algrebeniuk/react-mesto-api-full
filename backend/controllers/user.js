@@ -24,6 +24,7 @@ export function getUser(req, res, next) {
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequest(err.message));
+        return;
       }
       next(err);
     });
@@ -36,25 +37,24 @@ export function createUser(req, res, next) {
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
-    })
-      .then((user) => res.status(201).send({
-        name: user.name,
-        about: user.about,
-        avatar: user.avatar,
-        email: user.email,
-      }))
-      .catch((err) => {
-        if (err.name === 'ValidationError') {
-          next(new BadRequest('Введены некорректные данные'));
-        }
-        if (err.code === 11000) {
-          next(new ConflictingRequest('Пользователь с такой почтой уже существует'));
-        }
-        if (err) {
-          next(err);
-        }
-      }))
-    .catch(next);
+    }))
+    .then((user) => res.status(201).send({
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      email: user.email,
+    }))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequest('Введены некорректные данные'));
+        return;
+      }
+      if (err.code === 11000) {
+        next(new ConflictingRequest('Пользователь с такой почтой уже существует'));
+        return;
+      }
+      next(err);
+    });
 }
 
 export function login(req, res, next) {
@@ -86,15 +86,11 @@ export function updateUser(req, res, next) {
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.message === 'NotFound') {
-        next(new UnauthorizedError('Пользователь не найден'));
-      }
       if (err.name === 'ValidationError') {
         next(new UnauthorizedError('Введены некорректные данные'));
+        return;
       }
-      if (err) {
-        next(err);
-      }
+      next(err);
     });
 }
 
@@ -105,15 +101,11 @@ export function updateUserAvatar(req, res, next) {
   User.findByIdAndUpdate(owner, { avatar }, { new: true, runValidators: true })
     .then((user) => res.send(user))
     .catch((err) => {
-      if (err.message === 'NotFound') {
-        next(new NotFoundError('Пользователь не найден'));
-      }
       if (err.name === 'ValidationError') {
         next(new BadRequest('Введены некорректные данные'));
+        return;
       }
-      if (err) {
-        next(err);
-      }
+      next(err);
     });
 }
 
