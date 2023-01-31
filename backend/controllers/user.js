@@ -6,7 +6,7 @@ import BadRequest from '../errors/bad-request.js';
 import ConflictingRequest from '../errors/conflicting-request.js';
 import NotFoundError from '../errors/not-found-error.js';
 
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { JWT_SECRET } = process.env;
 
 export function getUsers(req, res, next) {
   User.find({})
@@ -72,7 +72,7 @@ export function login(req, res, next) {
           return user;
         })
         .then(() => {
-          const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+          const token = jwt.sign({ _id: user._id }, process.env.NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
           res.send({ token });
         })
         .catch(next);
@@ -87,7 +87,7 @@ export function updateUser(req, res, next) {
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new UnauthorizedError('Введены некорректные данные'));
+        next(new BadRequest('Введены некорректные данные'));
         return;
       }
       next(err);

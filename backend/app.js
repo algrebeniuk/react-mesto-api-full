@@ -1,4 +1,7 @@
+/* eslint-disable import/first */
+// eslint-disable-next-line import/newline-after-import
 import * as dotenv from 'dotenv';
+dotenv.config();
 import express, { json } from 'express';
 import { set, connect } from 'mongoose';
 import { errors } from 'celebrate';
@@ -13,8 +16,6 @@ import auth from './middlewares/auth.js';
 import NotFoundError from './errors/not-found-error.js';
 import CentralizedErrorHandling from './middlewares/centralized-error-handling.js';
 import { validationOfUserSignUp, validationOfUserSignIn } from './middlewares/user-joi-validation.js';
-
-dotenv.config();
 
 const { PORT = 3000 } = process.env;
 const app = express();

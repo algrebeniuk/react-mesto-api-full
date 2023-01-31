@@ -30,7 +30,7 @@ export function deleteCard(req, res, next) {
     .orFail(new NotFoundError('Карточка не найдена'))
     .then((card) => {
       if (!card.owner.equals(req.user._id)) {
-        next(new ForbiddenError('Невозможно удалить чужую карточку'));
+        return next(new ForbiddenError('Невозможно удалить чужую карточку'));
       }
       return card.remove().then(res.send({ message: 'Карточка удалена' }));
     })
